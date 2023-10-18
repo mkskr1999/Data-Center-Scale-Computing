@@ -1,0 +1,21 @@
+services:
+  db:
+    container_name: demo
+    image: "postgres:16"
+    environment:
+      - POSTGRES_PASSWORD=sai123
+      - POSTGRES_USER=sai
+      - POSTGRES_DB=shelter
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+  etl:
+    container_name: etl_demo
+    build: .
+    depends_on:
+    - db
+
+volumes:
+  db_data:
